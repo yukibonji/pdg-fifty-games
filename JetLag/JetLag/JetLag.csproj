@@ -80,6 +80,7 @@
     <Content Include="index.html" />
     <Content Include="scripts\colors.js" />
     <Content Include="scripts\frameBuffer.js" />
+    <Content Include="scripts\GameJoltAPI.js" />
     <Content Include="scripts\images.js" />
     <Content Include="scripts\main.js" />
     <Content Include="scripts\mainController.js" />
