@@ -34,6 +34,8 @@ var mainController = {
                 sounds.enabled = !sounds.enabled;
                 this.saveSettings();
                 this.renderScreen();
+            } else if (event.which == 72) {
+                window.open("http://gamejolt.com/games/jetlag-2016/192325/scores/197668/best","_blank");
             }
         } else {
             if (event.which == 37 && this.direction != -1) {
@@ -129,6 +131,9 @@ var mainController = {
 
             text = "Controls: \u001b \u001a";
             this.drawText(text, "mediumamethyst", "transparent", this.columns / 2 - text.length / 2, this.rows / 2 + 1);
+
+            text = "[H]igh Scores"
+            this.drawText(text, "mediumamethyst", "transparent", this.columns / 2 - text.length / 2, this.rows / 2 + 2);
         }
 
         var s = String(this.score);
@@ -153,8 +158,8 @@ var mainController = {
         localStorage.settings = JSON.stringify(settings);
     },
     initialize: function () {
-        this.username = $.QueryString.username;
-        this.token = $.QueryString.token;
+        this.username = $.QueryString.gjapi_username;
+        this.token = $.QueryString.gjapi_token;
         this.loadSettings();
         this.context.fillStyle = "#202020";
         this.context.fillRect(0, 0, frameBuffer.virtualWidth, frameBuffer.virtualHeight);

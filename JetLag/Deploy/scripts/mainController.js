@@ -1,4 +1,16 @@
-﻿var mainController = {
+﻿(function ($) {
+    $.QueryString = (function (a) {
+        if (a == "") return {};
+        var b = {};
+        for (var i = 0; i < a.length; ++i) {
+            var p = a[i].split('=', 2);
+            if (p.length != 2) continue;
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+        return b;
+    })(window.location.search.substr(1).split('&'))
+})(jQuery);
+var mainController = {
     imageData: null,
     loadHighScore: function () {
         if (localStorage == null || localStorage.highScore == null) {
@@ -7,7 +19,7 @@
             return Number(localStorage.highScore);
         }
     },
-    saveHighScore: function(){
+    saveHighScore: function () {
         localStorage.highScore = this.highScore;
     },
     handleKeyDown: function (event) {
@@ -22,6 +34,8 @@
                 sounds.enabled = !sounds.enabled;
                 this.saveSettings();
                 this.renderScreen();
+            } else if (event.which == 72) {
+                window.open("http://gamejolt.com/games/jetlag-2016/192325/scores/197668/best","_blank");
             }
         } else {
             if (event.which == 37 && this.direction != -1) {
@@ -57,6 +71,9 @@
         if (this.tail[this.tailLength - 1] == this.blocks[this.tailLength - 1] || this.tail[this.tailLength - 1] == 0 || this.tail[this.tailLength - 1]==this.columns-1) {
             sounds.play("death");
             this.gameOver = true;
+            if (this.username != null && this.token != null) {
+                GJAPI.sendURL(GJAPI.getURL("scores/add", { username: this.username, user_token: this.token, score: this.highScore, sort: this.highScore, table_id: 197668 }), function (data) { });
+            }
             clearInterval(this.interval);
         } else {
             this.runLength++;
@@ -114,6 +131,9 @@
 
             text = "Controls: \u001b \u001a";
             this.drawText(text, "mediumamethyst", "transparent", this.columns / 2 - text.length / 2, this.rows / 2 + 1);
+
+            text = "[H]igh Scores"
+            this.drawText(text, "mediumamethyst", "transparent", this.columns / 2 - text.length / 2, this.rows / 2 + 2);
         }
 
         var s = String(this.score);
@@ -138,6 +158,8 @@
         localStorage.settings = JSON.stringify(settings);
     },
     initialize: function () {
+        this.username = $.QueryString.gjapi_username;
+        this.token = $.QueryString.gjapi_token;
         this.loadSettings();
         this.context.fillStyle = "#202020";
         this.context.fillRect(0, 0, frameBuffer.virtualWidth, frameBuffer.virtualHeight);
