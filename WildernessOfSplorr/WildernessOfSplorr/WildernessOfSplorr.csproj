@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FB22ED2E-DCB3-4D68-A32E-308A78D2A3E9}</ProjectGuid>
+    <ProjectGuid>{3FB48541-9017-4F5C-8D39-E12292533FB3}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FeedTheFish</RootNamespace>
-    <AssemblyName>FeedTheFish</AssemblyName>
+    <RootNamespace>WildernessOfSplorr</RootNamespace>
+    <AssemblyName>WildernessOfSplorr</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -66,7 +66,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="content\images\aquarium.png" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -76,9 +75,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\sounds\death.wav" />
+    <Content Include="content\sounds\turn.wav" />
     <Content Include="index.html" />
+    <Content Include="scripts\colors.js" />
+    <Content Include="scripts\constants.js" />
+    <Content Include="scripts\frameBuffer.js" />
+    <Content Include="scripts\GameJoltAPI.js" />
+    <Content Include="scripts\images.js" />
     <Content Include="scripts\main.js" />
     <Content Include="scripts\mainController.js" />
+    <Content Include="scripts\renderer.js" />
+    <Content Include="scripts\patterns.js" />
+    <Content Include="scripts\sounds.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +106,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>40502</DevelopmentServerPort>
+          <DevelopmentServerPort>3422</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:40502/</IISUrl>
+          <IISUrl>http://localhost:3422/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
