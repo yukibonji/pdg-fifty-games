@@ -78,16 +78,22 @@
     <Content Include="content\sounds\death.wav" />
     <Content Include="content\sounds\turn.wav" />
     <Content Include="index.html" />
+    <Content Include="scripts\atlas.js" />
     <Content Include="scripts\colors.js" />
     <Content Include="scripts\constants.js" />
+    <Content Include="scripts\directions.js" />
     <Content Include="scripts\frameBuffer.js" />
+    <Content Include="scripts\game.js" />
+    <Content Include="scripts\gameData.js" />
     <Content Include="scripts\GameJoltAPI.js" />
     <Content Include="scripts\images.js" />
     <Content Include="scripts\main.js" />
     <Content Include="scripts\mainController.js" />
+    <Content Include="scripts\map.js" />
     <Content Include="scripts\renderer.js" />
     <Content Include="scripts\patterns.js" />
     <Content Include="scripts\sounds.js" />
+    <Content Include="scripts\utility.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
