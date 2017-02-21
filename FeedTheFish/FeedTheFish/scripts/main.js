@@ -1,3 +1,0 @@
-﻿function main() {
-    mainController.initialize();
-}

@@ -1,5 +1,0 @@
-﻿var mainController = {
-    initialize: function () {
-
-    }
-};
