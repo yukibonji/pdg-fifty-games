@@ -44,7 +44,7 @@ function love.update(dt)
   if not gameover then
     gameover = board[playerX][playerY].value == 0
     if gameover then
-      love.window.showMessageBox("Sorry!","You lose! Close message box and press F2 to restart.","info",true)
+      love.window.showMessageBox("Sorry!","You lose! \n\nClose message box and press F2 to restart.","info",true)
     end
   end
   local allvisited = true
@@ -56,7 +56,7 @@ function love.update(dt)
     end
   end
   if allvisited and not gameover then
-      love.window.showMessageBox("Congratulations!","You Win! Close message box and press F2 to restart.","info",true)
+      love.window.showMessageBox("Congratulations!","You Win! \n\nClose message box and press F2 to restart.","info",true)
       gameover=true
   end
 end
