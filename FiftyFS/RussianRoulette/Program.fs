@@ -1,5 +1,40 @@
 ﻿open System
 
+type PromptResponse<'TResult> =
+    | Return of 'TResult
+    | ConditionalReturn of (unit->bool) * bool * 'TResult
+    | Continue of (unit->unit)
+    | ContinueRefresh of (unit->unit)
+
+
+let prompt (onShow:unit->unit) (input:unit->'TInput) (inputHandlers:Map<'TInput, PromptResponse<'TResult>>) : 'TResult =
+    let rec promptLoop (onShow:unit->unit) (input:unit->'TInput) (inputHandlers:Map<'TInput, PromptResponse<'TResult>>) (show:bool) : 'TResult =
+        if show then 
+            onShow()
+
+        match (input(), inputHandlers) ||> Map.tryFind with
+        | Some (Return result) -> 
+            result
+
+        | Some (ConditionalReturn (test,refresh,result)) ->
+            if test() then
+                result
+            else
+               promptLoop onShow input inputHandlers refresh 
+
+        | Some (Continue action) -> 
+            action()
+            promptLoop onShow input inputHandlers false
+
+        | Some (ContinueRefresh action) ->
+            action()
+            promptLoop onShow input inputHandlers true
+
+        | None -> 
+            promptLoop onShow input inputHandlers false
+
+    promptLoop onShow input inputHandlers true
+
 let chambers : int = 6
 
 type GameState =
@@ -43,34 +78,37 @@ let rec chooseChamber (show:bool) (gameState:GameState) : GameState =
         gameState
         |> chooseChamber true
 
-let rec play (show:bool) (gameState:GameState) : unit =
-    if gameState.alive then
-        if show then
+let play (gameState:GameState) : unit =
+    let rec playLoop (show:bool) (gameState:GameState) : unit =
+        if gameState.alive then
+            if show then
+                printfn ""
+                printfn "You survived %i rounds." gameState.rounds
+                printfn "Would you like to..."
+                printfn "[W]alk away"
+                printfn "[C]hoose a chamber"
+
+            match Console.ReadKey(true).Key with
+            | ConsoleKey.C ->
+                gameState
+                |> chooseChamber true
+                |> playLoop true
+
+            | ConsoleKey.W ->
+                printfn ""
+                printfn "You walk away."
+                printfn "You survived %i rounds." gameState.rounds
+                printfn "More importantly, you are alive."
+
+            | _ -> 
+                gameState 
+                |> playLoop false
+        else
             printfn ""
+            printfn "You are dead."
             printfn "You survived %i rounds." gameState.rounds
-            printfn "Would you like to..."
-            printfn "[W]alk away"
-            printfn "[C]hoose a chamber"
 
-        match Console.ReadKey(true).Key with
-        | ConsoleKey.C ->
-            gameState
-            |> chooseChamber true
-            |> play true
-
-        | ConsoleKey.W ->
-            printfn ""
-            printfn "You walk away."
-            printfn "You survived %i rounds." gameState.rounds
-            printfn "More importantly, you are alive."
-
-        | _ -> 
-            gameState 
-            |> play false
-    else
-        printfn ""
-        printfn "You are dead."
-        printfn "You survived %i rounds." gameState.rounds
+    playLoop true gameState
 
 let instructions () : unit =
     printfn ""
@@ -82,46 +120,44 @@ let instructions () : unit =
     printfn "If you choose the chamber with the bullet, you die, and your score is meaningless."
     printfn "If you choose a chamber without the bullet, you get one point and may play another round."
 
-let rec confirmQuit (show:bool) : bool =
-    if show then
+let confirmQuit () =
+    let onShow () : unit =
         printfn ""
         printfn "Are you sure you want to quit?"
         printfn "[Y]es"
         printfn "[N]o"
 
-    match Console.ReadKey(true).Key with
-    | ConsoleKey.Y -> true
-    | ConsoleKey.N -> false
-    | _ -> confirmQuit false
+    let input() : ConsoleKey = 
+        Console.ReadKey(true).Key
 
-let rec mainMenu (show:bool) : unit =
-    if show then
+    let inputHandlers =
+        Map.empty
+        |> Map.add ConsoleKey.Y (Return true)
+        |> Map.add ConsoleKey.N (Return false)
+
+    prompt onShow input inputHandlers
+        
+
+let mainMenu () : unit =
+    let onShow () : unit =
         printfn ""
         printfn "Russian Roulette"
         printfn "[P]lay"
         printfn "[I]nstructions"
         printfn "[Q]uit"
 
-    match Console.ReadKey(true).Key with
-    | ConsoleKey.P ->
-        createGame()
-        |> play true
-        mainMenu true
+    let input() : ConsoleKey =
+        Console.ReadKey(true).Key
 
-    | ConsoleKey.I ->
-        instructions()
-        mainMenu true
+    let inputHandlers =
+        Map.empty
+        |> Map.add ConsoleKey.P (ContinueRefresh (createGame >> play))
+        |> Map.add ConsoleKey.I (ContinueRefresh instructions)
+        |> Map.add ConsoleKey.Q (ConditionalReturn (confirmQuit ,true, ()))
 
-    | ConsoleKey.Q -> 
-        if confirmQuit true then
-            ()
-        else
-            mainMenu true
-
-    | _ -> 
-        mainMenu false
+    prompt onShow input inputHandlers
 
 [<EntryPoint>]
 let main argv = 
-    mainMenu true
+    mainMenu ()
     0
