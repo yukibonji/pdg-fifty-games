@@ -1,20 +1,20 @@
 ﻿open SDLContext
 
 let rec private sdlRunnerLoop (ctx:SDLContext.context) : unit = 
-    SDLContext.setDrawColor (0uy,0uy,0uy,255uy) ctx
-    SDLContext.clear ctx
-    RomFont.render (0,0) (Some (255uy,0uy,0uy,255uy),None) '@' ctx
-    RomFont.renderString (0,8) (Some (255uy,0uy,0uy,255uy),None) "This is a test." ctx
-    SDLContext.present ctx
-    match SDLContext.waitForKeyPress() with
-    | None | Some 27 -> ()
-    | Some _ -> ctx |> sdlRunnerLoop
+    ctx
+    |> SDLContext.setDrawColor Colors.black
+    |> SDLContext.clear
+    |> RomFont.render (0,0) (Some Colors.red,None) '@'
+    |> RomFont.renderString (0,8) (Some Colors.yellow,None) "This is a test."
+    |> SDLContext.present
+    |> ignore
+    match SDLContext.pollForKeyPress() with
+    | (false,None) | (true,Some 27) -> ()
+    | _ -> ctx |> sdlRunnerLoop
 
-let sdlRunner (ctx:SDLContext.context) : unit =
+let private sdlRunner (ctx:SDLContext.context) : unit =
     ctx
     |> SDLContext.setLogicalSize (320,240)
-
-    ctx 
     |> sdlRunnerLoop
 
 [<EntryPoint>]

@@ -34,11 +34,15 @@ let render (x:int,y:int) (foreground: color option, background: color option) (p
             if pattern |> getStatus(cellX,cellY) then
                 foreground
                 |> Option.iter(fun c -> 
-                    SDLContext.setDrawColor c context
-                    SDLContext.fillRect (x+cellX,y+cellY,1,1) context)
+                    context
+                    |> SDLContext.setDrawColor c
+                    |> SDLContext.fillRect (x+cellX,y+cellY,1,1)
+                    |> ignore)
             else    
                 background
                 |> Option.iter(fun c -> 
-                    SDLContext.setDrawColor c context
-                    SDLContext.fillRect (x+cellX,y+cellY,1,1) context)))
+                    context
+                    |> SDLContext.setDrawColor c
+                    |> SDLContext.fillRect (x+cellX,y+cellY,1,1)
+                    |> ignore)))
     ()

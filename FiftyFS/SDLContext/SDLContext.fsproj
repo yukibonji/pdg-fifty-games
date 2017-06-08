@@ -78,6 +78,7 @@
     </Content>
     <Compile Include="Patterns.fs" />
     <Compile Include="RomFont.fs" />
+    <Compile Include="Colors.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

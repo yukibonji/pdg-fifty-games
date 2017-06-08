@@ -465,6 +465,8 @@ module private Native =
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
     extern int SDL_WaitEvent(SDL_Event* event);
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
+    extern int SDL_PollEvent(SDL_Event* event);
+    [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
     extern int SDL_RenderClear(IntPtr renderer)
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
     extern void SDL_RenderPresent(IntPtr renderer)
@@ -505,23 +507,37 @@ let rec waitForKeyPress () : int32 option =
         | _ -> waitForKeyPress()
     | _ -> None
 
-let clear (context:context) : unit = 
+let rec pollForKeyPress () : bool * (int32 option) =
+    let mutable event = new SDL_Event()
+    match Native.SDL_WaitEvent(&&event) with
+    | 1 -> 
+        match event.Type |> int |> enum<EventType> with
+        | EventType.Quit -> (false,None)
+        | EventType.KeyDown -> (true, event.Key.Keysym.Sym |> Some)
+        | _ -> pollForKeyPress()
+    | _ -> (true,None)
+
+let clear (context:context) : context = 
     Native.SDL_RenderClear(context.renderer)
     |> ignore
+    context
 
-let present (context:context) : unit =
+let present (context:context) : context =
     Native.SDL_RenderPresent(context.renderer)
     |> ignore
+    context
 
-let setDrawColor (r:byte,g:byte,b:byte,a:byte) (context:context) :unit = 
+let setDrawColor (r:byte,g:byte,b:byte,a:byte) (context:context) :context = 
     Native.SDL_SetRenderDrawColor(context.renderer,r,g,b,a)
     |> ignore
+    context
 
-let setLogicalSize (w:int,h:int) (context:context) : unit =
+let setLogicalSize (w:int,h:int) (context:context) : context =
     Native.SDL_RenderSetLogicalSize(context.renderer, w,h)
     |> ignore
+    context
 
-let fillRect (x:int,y:int,w:int,h:int) (context:context) : unit =
+let fillRect (x:int,y:int,w:int,h:int) (context:context) : context =
     let mutable rect = new SDL_Rect()
     rect.x <- x
     rect.y <- y
@@ -529,3 +545,4 @@ let fillRect (x:int,y:int,w:int,h:int) (context:context) : unit =
     rect.h <- h
     Native.SDL_RenderFillRect(context.renderer, &&rect)
     |> ignore
+    context

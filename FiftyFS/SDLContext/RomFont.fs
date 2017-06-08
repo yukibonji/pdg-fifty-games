@@ -263,14 +263,16 @@ let fetch (character:char) : Patterns.pattern option=
     Table
     |> Map.tryFind character
 
-let render (position:int * int) (colors: (Patterns.color option) * (Patterns.color option)) (character:char) (context:SDLContext.context) : unit =
+let render (position:int * int) (colors: (Patterns.color option) * (Patterns.color option)) (character:char) (context:SDLContext.context) : SDLContext.context =
     character 
     |> fetch
     |> Option.iter (fun pattern -> Patterns.render position colors pattern context)
+    context
 
-let renderString (x:int,y:int) (colors: (Patterns.color option) * (Patterns.color option)) (text:string) (context:SDLContext.context) : unit =
+let renderString (x:int,y:int) (colors: (Patterns.color option) * (Patterns.color option)) (text:string) (context:SDLContext.context) : SDLContext.context =
     text.ToCharArray()
     |> Array.fold(fun acc c -> 
         render (x+acc,y) colors c context
         acc + 8) 0
     |> ignore
+    context
