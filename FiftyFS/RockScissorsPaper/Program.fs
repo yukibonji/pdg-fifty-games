@@ -58,41 +58,45 @@ let makeChoice (choice:Choice) (gameState:GameState) : GameState =
         printfn "One point to me!"
         {gameState with computerWins = gameState.computerWins + 1}
 
-let rec play (show:bool) (gameState:GameState) : unit =
-    if gameState |> gameOver then
-        printfn ""
-        match gameState with
-        | x when x.computerWins>=goal ->
-            printfn "I win!"
-        | _ ->
-            printfn "You win!"
-    else
-        if show then
+let play (gameState:GameState) : unit =
+    let rec playLoop (show:bool) (gameState:GameState) : unit =
+        if gameState |> gameOver then
             printfn ""
-            gameState
-            |> determineRoundNumber
-            |> printfn "Round # %i"
-            printfn "Score: %i - %i - %i" gameState.playerWins gameState.computerWins gameState.ties
-            printfn "What is your choice?"
-            printfn "[R]ock"
-            printfn "[S]cissors"
-            printfn "[P]aper"
+            match gameState with
+            | x when x.computerWins>=goal ->
+                printfn "I win!"
+            | _ ->
+                printfn "You win!"
+        else
+            if show then
+                printfn ""
+                gameState
+                |> determineRoundNumber
+                |> printfn "Round # %i"
+                printfn "Score: %i - %i - %i" gameState.playerWins gameState.computerWins gameState.ties
+                printfn "What is your choice?"
+                printfn "[R]ock"
+                printfn "[S]cissors"
+                printfn "[P]aper"
 
-        let choice : Choice option = 
-            match Console.ReadKey(true).Key with
-            | ConsoleKey.R -> Some Rock
-            | ConsoleKey.S -> Some Scissors
-            | ConsoleKey.P -> Some Paper
-            | _ -> None
+            let choice : Choice option = 
+                match Console.ReadKey(true).Key with
+                | ConsoleKey.R -> Some Rock
+                | ConsoleKey.S -> Some Scissors
+                | ConsoleKey.P -> Some Paper
+                | _ -> None
 
-        match choice with
-        | Some x -> 
-            gameState
-            |> makeChoice x
-            |> play true
-        | None -> 
-            gameState 
-            |> play false
+            match choice with
+            | Some x -> 
+                gameState
+                |> makeChoice x
+                |> playLoop true
+            | None -> 
+                gameState 
+                |> playLoop false
+
+    gameState
+    |> playLoop true
 
 let instructions () : unit =
     printfn ""
@@ -102,46 +106,51 @@ let instructions () : unit =
     printfn "Rock beats Scissors, Scissors beats Paper, and Paper beats Rock. Playing the same thing is a tie."
     printfn "Play continues until one of us has won three rounds."
 
-let rec confirmQuit (show:bool) : bool =
-    if show then
-        printfn ""
-        printfn "Are you sure you want to quit?"
-        printfn "[Y]es"
-        printfn "[N]o"
+let confirmQuit () : bool =
+    let rec confirmQuitLoop (show:bool) : bool =
+        if show then
+            printfn ""
+            printfn "Are you sure you want to quit?"
+            printfn "[Y]es"
+            printfn "[N]o"
 
-    match Console.ReadKey(true).Key with
-    | ConsoleKey.Y -> true
-    | ConsoleKey.N -> false
-    | _ -> confirmQuit false
+        match Console.ReadKey(true).Key with
+        | ConsoleKey.Y -> true
+        | ConsoleKey.N -> false
+        | _ -> confirmQuitLoop false
 
-let rec mainMenu (show:bool) : unit =
-    if show then
-        printfn ""
-        printfn "Rock, Scissors, Paper"
-        printfn "[P]lay"
-        printfn "[I]nstructions"
-        printfn "[Q]uit"
+    confirmQuitLoop true
 
-    match Console.ReadKey(true).Key with
-    | ConsoleKey.P ->
-        createGame()
-        |> play true
-        mainMenu true
+let mainMenu () : unit =
+    let rec mainMenuLoop (show:bool) : unit =
+        if show then
+            printfn ""
+            printfn "Rock, Scissors, Paper"
+            printfn "[P]lay"
+            printfn "[I]nstructions"
+            printfn "[Q]uit"
 
-    | ConsoleKey.I ->
-        instructions()
-        mainMenu true
+        match Console.ReadKey(true).Key with
+        | ConsoleKey.P ->
+            createGame()
+            |> play
+            mainMenuLoop true
 
-    | ConsoleKey.Q -> 
-        if confirmQuit true then
-            ()
-        else
-            mainMenu true
+        | ConsoleKey.I ->
+            instructions()
+            mainMenuLoop true
 
-    | _ -> 
-        mainMenu false
+        | ConsoleKey.Q -> 
+            if confirmQuit() then
+                ()
+            else
+                mainMenuLoop true
+
+        | _ -> 
+            mainMenuLoop false
+    mainMenuLoop true
 
 [<EntryPoint>]
 let main argv = 
-    mainMenu true
+    mainMenu ()
     0

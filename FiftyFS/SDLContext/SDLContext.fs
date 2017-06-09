@@ -509,12 +509,12 @@ let rec waitForKeyPress () : int32 option =
 
 let rec pollForKeyPress () : bool * (int32 option) =
     let mutable event = new SDL_Event()
-    match Native.SDL_WaitEvent(&&event) with
+    match Native.SDL_PollEvent(&&event) with
     | 1 -> 
         match event.Type |> int |> enum<EventType> with
         | EventType.Quit -> (false,None)
         | EventType.KeyDown -> (true, event.Key.Keysym.Sym |> Some)
-        | _ -> pollForKeyPress()
+        | _ -> (true,None)
     | _ -> (true,None)
 
 let clear (context:context) : context = 
