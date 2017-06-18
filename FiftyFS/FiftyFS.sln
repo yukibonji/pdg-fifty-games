@@ -15,6 +15,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SDLContextSandbox", "SDLCon
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Wandermaze", "Wandermaze\Wandermaze.fsproj", "{D040B5B8-1E31-4662-AD02-2FBE50591A2E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hamurabi", "Hamurabi\Hamurabi.fsproj", "{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,14 @@ Global
 		{D040B5B8-1E31-4662-AD02-2FBE50591A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D040B5B8-1E31-4662-AD02-2FBE50591A2E}.Release|x64.ActiveCfg = Release|Any CPU
 		{D040B5B8-1E31-4662-AD02-2FBE50591A2E}.Release|x64.Build.0 = Release|Any CPU
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Debug|x64.ActiveCfg = Debug|x64
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Debug|x64.Build.0 = Debug|x64
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{5DDFAD99-E53C-4217-BF40-3C3DF152E9E1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
