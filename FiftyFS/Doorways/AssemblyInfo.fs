@@ -1,4 +1,4 @@
-﻿namespace Hamurabi.AssemblyInfo
+﻿namespace Doorways.AssemblyInfo
 
 open System.Reflection
 open System.Runtime.CompilerServices
@@ -7,11 +7,11 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("Hamurabi")>]
+[<assembly: AssemblyTitle("Doorways")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("Hamurabi")>]
+[<assembly: AssemblyProduct("Doorways")>]
 [<assembly: AssemblyCopyright("Copyright ©  2017")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
@@ -22,7 +22,7 @@ open System.Runtime.InteropServices
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("5ddfad99-e53c-4217-bf40-3c3df152e9e1")>]
+[<assembly: Guid("082d0856-497e-49d4-b2b7-5b9825462d52")>]
 
 // Version information for an assembly consists of the following four values:
 // 
