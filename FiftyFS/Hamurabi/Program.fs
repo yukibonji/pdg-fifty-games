@@ -1,4 +1,5 @@
 ﻿open SDLContext
+open SDLContext.Operators
 
 type GameState =
     {year:int;
@@ -12,17 +13,17 @@ type GameState =
     acrePrice:int}
 
 let rec internal gameOver (game:GameState) (ctx:SDLContext.context) : SDLContext.context option =
-    ctx
-    |> SDLContext.setDrawColor Colors.black
-    |> SDLContext.clear
-    |> RomFont.renderString (0,0) (Some Colors.white, None) "Game Over!"
-    |> RomFont.renderString (0,32) (Some Colors.white, None) "[Esc] Back to Menu"
-    |> SDLContext.present
+    (game,ctx)
+    =>^ SDLContext.setDrawColor Colors.black
+    =>^ SDLContext.clear
+    =>^ RomFont.renderString (0,0) (Some Colors.white, None) "Game Over!"
+    =>^ RomFont.renderString (0,32) (Some Colors.white, None) "[Esc] Back to Menu"
+    =>^ SDLContext.present
     |> ignore
     match SDLContext.waitForKeyPress() with
     | None -> None
     | Some 27 -> ctx |> Some
-    | _ -> ctx |> gameOver game
+    | _ -> (game,ctx) ||> gameOver
 
 let internal renderGame (game:GameState) (ctx:SDLContext.context) : SDLContext.context =
     ctx
