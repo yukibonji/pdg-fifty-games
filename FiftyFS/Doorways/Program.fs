@@ -2,7 +2,7 @@
 type cellType = Room | Passageway
 
 type cell = 
-    {exits:Set<CardinalDirection.direction>}
+    {exits:Set<CardinalDirection.direction>;priorVisits:int}
 
 type cellMap = Map<int*int,cell>
 
@@ -30,7 +30,7 @@ let generateCellMap (random:System.Random) (cellCount:int) : cellMap =
         else
             if cellMap |> Map.isEmpty then
                 cellMap
-                |> Map.add (0,0) {exits=Set.empty}
+                |> Map.add (0,0) {exits=Set.empty; priorVisits=0}
                 |> generateCells random (cellCount-1) 
             else
                 let cellLocation = 
@@ -49,7 +49,7 @@ let generateCellMap (random:System.Random) (cellCount:int) : cellMap =
                     let startCell =
                         {cellMap.[cellLocation.Value] with exits = cellMap.[cellLocation.Value].exits |> Set.add (choice.Value|> fst)}
                     let endCell = 
-                        {exits=Set.empty |> Set.add (choice.Value|> fst |> CardinalDirection.opposite)}
+                        {exits=Set.empty |> Set.add (choice.Value|> fst |> CardinalDirection.opposite); priorVisits = 0}
                     cellMap
                     |> Map.add (cellLocation.Value) (startCell)
                     |> Map.add (choice.Value |> snd) (endCell)
@@ -73,14 +73,27 @@ type gameState =
     {cellMap:cellMap;
     position:int*int}
 
+let attemptMove (direction:CardinalDirection.direction) (gameState:gameState) : bool * gameState =
+    let cell = 
+        gameState.cellMap.[gameState.position]
+    if cell.exits.Contains(direction) then
+        (true,
+            {gameState with 
+                position=gameState.position |> CardinalDirection.step 1 direction;  
+                cellMap = gameState.cellMap |> Map.add gameState.position {cell with priorVisits = cell.priorVisits+1}})
+    else            
+        (false,gameState)
+    
+
 let run (gameState:gameState) : unit = 
 
     let rec runLoop (show:bool) (gameState:gameState) : unit =
-        let cell = 
-            gameState.cellMap.[gameState.position]
         if show then
+            let cell = 
+                gameState.cellMap.[gameState.position]
             printfn ""
-            printfn "You are at (%d,%d)" (gameState.position |> fst) (gameState.position |> snd)
+            printfn "You are at (%d,%d)." (gameState.position |> fst) (gameState.position |> snd)
+            printfn "You have been here %d times previously." (cell.priorVisits)
             if cell.exits.Contains(CardinalDirection.North) then
                 printfn "[N]orth"
             if cell.exits.Contains(CardinalDirection.East) then
@@ -91,28 +104,24 @@ let run (gameState:gameState) : unit =
                 printfn "[W]est"
         match System.Console.ReadKey(true).Key with
         | System.ConsoleKey.N -> 
-            if cell.exits.Contains(CardinalDirection.North) then
-                {gameState with position=gameState.position |> CardinalDirection.step 1 CardinalDirection.North} |> runLoop true
-            else            
-                gameState |> runLoop false
+            (CardinalDirection.North, gameState)
+            ||> attemptMove
+            ||> runLoop
 
         | System.ConsoleKey.E -> 
-            if cell.exits.Contains(CardinalDirection.East) then
-                {gameState with position=gameState.position |> CardinalDirection.step 1 CardinalDirection.East} |> runLoop true
-            else            
-                gameState |> runLoop false
+            (CardinalDirection.East, gameState)
+            ||> attemptMove
+            ||> runLoop
 
         | System.ConsoleKey.S -> 
-            if cell.exits.Contains(CardinalDirection.South) then
-                {gameState with position=gameState.position |> CardinalDirection.step 1 CardinalDirection.South} |> runLoop true
-            else            
-                gameState |> runLoop false
+            (CardinalDirection.South, gameState)
+            ||> attemptMove
+            ||> runLoop
 
         | System.ConsoleKey.W -> 
-            if cell.exits.Contains(CardinalDirection.West) then
-                {gameState with position=gameState.position |> CardinalDirection.step 1 CardinalDirection.West} |> runLoop true
-            else            
-                gameState |> runLoop false
+            (CardinalDirection.West, gameState)
+            ||> attemptMove
+            ||> runLoop
 
         | _ -> gameState |> runLoop false
 
@@ -124,7 +133,7 @@ let run (gameState:gameState) : unit =
 let main argv = 
     let random = new System.Random()
     let cellMap = 
-        generateCellMap random 20
+        generateCellMap random 200
     let gameState =
         {cellMap = cellMap;
         position = (pickRandomCellLocation random cellMap)|>Option.get}
