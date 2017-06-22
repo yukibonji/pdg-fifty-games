@@ -5,14 +5,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>082d0856-497e-49d4-b2b7-5b9825462d52</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Doorways</RootNamespace>
-    <AssemblyName>Doorways</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProjectGuid>b96bb0e4-3d74-4fd2-959d-c59e70714765</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Splorr.Wanderer</RootNamespace>
+    <AssemblyName>Splorr.Wanderer</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>Doorways</Name>
+    <Name>Splorr.Wanderer</Name>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\Doorways.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Splorr.Wanderer.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\Doorways.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Splorr.Wanderer.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -48,9 +49,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="CardinalDirection.fs" />
+    <Compile Include="Creature.fs" />
+    <Compile Include="Terrain.fs" />
+    <Compile Include="Colors.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
+    <Content Include="flintrock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="grass.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="rock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tree.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tagon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pdg.Common\Pdg.Common.fsproj">
+      <Name>Pdg.Common</Name>
+      <Project>{76c95c74-a469-47ce-84fa-f2ce1b71a9fb}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SDLContext\SDLContext.fsproj">
+      <Name>SDLContext</Name>
+      <Project>{0a75025f-d00c-43ae-9f77-6be16ceabf50}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -63,7 +93,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\Doorways.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Splorr.Wanderer.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
@@ -74,7 +104,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\Doorways.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Splorr.Wanderer.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>

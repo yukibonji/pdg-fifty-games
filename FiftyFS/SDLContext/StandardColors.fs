@@ -1,4 +1,4 @@
-﻿module SDLContext.Colors
+﻿module SDLContext.StandardColors
 
 let black   = (  0uy,   0uy,   0uy, 255uy)
 let blue    = (  0uy,   0uy, 255uy, 255uy)

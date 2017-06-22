@@ -3,10 +3,10 @@
 let private sdlRunner (ctx:SDLContext.context) : unit =
     let rec sdlRunnerLoop (ctx:SDLContext.context) : unit = 
         ctx
-        |> SDLContext.setDrawColor Colors.black
+        |> SDLContext.setDrawColor StandardColors.black
         |> SDLContext.clear
-        |> RomFont.render (0,0) (Some Colors.red,None) '@'
-        |> RomFont.renderString (0,8) (Some Colors.yellow,None) "This is a test."
+        |> RomFont.render (0,0) (Some StandardColors.red,None) '@'
+        |> RomFont.renderString (0,8) (Some StandardColors.yellow,None) "This is a test."
         |> SDLContext.present
         |> ignore
         match SDLContext.pollForKeyPress() with
