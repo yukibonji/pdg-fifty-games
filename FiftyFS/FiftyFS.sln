@@ -21,6 +21,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Pdg.Common", "Pdg.Common\Pd
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Splorr.Wanderer", "Splorr.Wanderer\Splorr.Wanderer.fsproj", "{B96BB0E4-3D74-4FD2-959D-C59E70714765}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SDL2FS.Sandbox", "SDL2FS.Sandbox\SDL2FS.Sandbox.fsproj", "{FE441815-4620-43DA-9087-385FE9C6996E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,14 @@ Global
 		{B96BB0E4-3D74-4FD2-959D-C59E70714765}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B96BB0E4-3D74-4FD2-959D-C59E70714765}.Release|x64.ActiveCfg = Release|Any CPU
 		{B96BB0E4-3D74-4FD2-959D-C59E70714765}.Release|x64.Build.0 = Release|Any CPU
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Debug|x64.ActiveCfg = Debug|x64
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Debug|x64.Build.0 = Debug|x64
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE441815-4620-43DA-9087-385FE9C6996E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
