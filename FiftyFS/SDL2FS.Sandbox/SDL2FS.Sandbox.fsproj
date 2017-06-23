@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Utility.fs" />
+    <Compile Include="Context.fs" />
+    <Compile Include="Window.fs" />
     <Compile Include="Init.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />

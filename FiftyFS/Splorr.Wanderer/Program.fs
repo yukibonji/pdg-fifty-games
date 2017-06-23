@@ -68,8 +68,8 @@ let createGame (randomizer:Generator.randomizer) : GameState =
 let private renderGame (game:GameState) (ctx:SDLContext.context) : SDLContext.context =
     game.board
     |> Map.iter (fun (x,y) cell -> 
-        ctx
-        |> RomFont.
+//        ctx
+//        |> RomFont.
         ())
     ctx
 
