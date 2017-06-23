@@ -4,7 +4,7 @@ open System.Runtime.InteropServices
 open System
 
 
-module Native =
+module private Native =
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint="SDL_Init")>]
     extern int SdlInit(uint32 flags)
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint="SDL_Quit")>]
@@ -39,7 +39,7 @@ let rec runLoop (random:Random) (renderer:IntPtr) : unit =
 
     Native.SDL_RenderPresent(renderer)
 
-    let mutable event = SDL_Event()
+    let mutable event = Sdl.SDL_Event()
     match Native.SDL_WaitEvent(&&event) with
     | 0 -> ()
     | _ ->

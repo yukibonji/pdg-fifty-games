@@ -23,7 +23,9 @@ module Event =
         | x -> x |> Other
 
     let wait (context:context<'TWindow,'TRenderer>) : context<'TWindow,'TRenderer> =
-        context
+        let mutable event = Sdl.SDL_Event()
+        match Native.SDL_WaitEvent(&&event) with
+        | _ -> context
 
 module Context =
     
