@@ -37,7 +37,7 @@ module private Native =
 
 module Window =
     
-    let create (windowId:'TWindow) (title:string) (position:CreateWindowPosition) (width:int, height:int) (flags:CreateWindowFlags) (context:context<'TWindow,'TRenderer>) : context<'TWindow,'TRenderer> =
+    let create (title:string) (position:CreateWindowPosition) (width:int, height:int) (flags:CreateWindowFlags) (windowId:'TWindow) (context:context<'TWindow,'TRenderer>) : context<'TWindow,'TRenderer> =
         let windowX, windowY = 
             match position with
             | CreateWindowPosition.Undefined -> (0x1FFF0000,0x1FFF0000)
@@ -47,7 +47,7 @@ module Window =
         |> Utility.withUtf8String (fun p -> 
             {context with windows = context.windows |> Map.add windowId (Native.SDL_CreateWindow(p,windowX,windowY,width,height,flags |> uint32))})
 
-    let destroyMainWindow (windowId:'TWindow) (context:context<'TWindow,'TRenderer>) : context<'TWindow,'TRenderer> =
+    let destroy (windowId:'TWindow) (context:context<'TWindow,'TRenderer>) : context<'TWindow,'TRenderer> =
         if context.windows.ContainsKey windowId then
             Native.SDL_DestroyWindow(context.windows |> Map.find windowId)
             {context with windows = context.windows |> Map.remove windowId}

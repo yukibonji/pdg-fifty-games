@@ -49,8 +49,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Utility.fs" />
+    <Compile Include="Event.fs" />
     <Compile Include="Context.fs" />
+    <Compile Include="Error.fs" />
     <Compile Include="Window.fs" />
+    <Compile Include="Color.fs" />
+    <Compile Include="Renderer.fs" />
     <Compile Include="Init.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />

@@ -3,12 +3,6 @@
 open System.Runtime.InteropServices
 open System
 
-[<StructLayout(LayoutKind.Explicit, Size=56)>]
-type SDL_Event =
-    struct
-        [<FieldOffset(0)>]
-        val Type: uint32
-    end
 
 module Native =
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint="SDL_Init")>]
@@ -30,7 +24,7 @@ module Native =
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
     extern int SDL_SetRenderDrawColor(IntPtr renderer, uint8 r, uint8 g, uint8 b, uint8 a)
     [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
-    extern int SDL_WaitEvent(SDL_Event* event)
+    extern int SDL_WaitEvent(Sdl.SDL_Event* event)
 
 
 let screenWidth = 640
